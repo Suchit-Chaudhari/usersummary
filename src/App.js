@@ -26,20 +26,24 @@ function App() {
 
   const displayValues = (data) => {
     if (typeof data !== "object" || data === null) {
-      // Base case: if not an object or array, display the value
-      return <p>{data}</p>;
+      // Base case: display non-object values
+      return <span>{data}</span>;
     }
 
-    return Object.entries(data).map(([key, value], index) => (
-      <div key={index} style={{ marginLeft: "20px" }}>
-        <strong>{key}:</strong>
-        {typeof value === "object" && value !== null ? (
-          displayValues(value) // Recursive call for nested objects/arrays
-        ) : (
-          <p>{value}</p>
-        )}
-      </div>
-    ));
+    return (
+      <ul style={{ listStyleType: "none", paddingLeft: "20px" }}>
+        {Object.entries(data).map(([key, value], index) => (
+          <li key={index}>
+            <strong>{key}:</strong>{" "}
+            {typeof value === "object" && value !== null ? (
+              displayValues(value) // Recursive call for nested objects/arrays
+            ) : (
+              <span>{value}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    );
   };
 
   if (loading) return <p>Loading...</p>;
